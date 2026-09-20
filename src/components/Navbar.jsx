@@ -1,0 +1,21 @@
+// it place for importing the this okay understand that 
+import { NavLink } from 'react-router-dom';
+
+
+
+// be careful don't do typo mistake man 
+const Navbar = () => {
+    return (
+        <header className="header">
+            <NavLink to="/" className="w-34 h-16 rounded-lg bg-white items-center justify-center flex font-bold shadow-md">
+                It's me Sonu
+            </NavLink>
+            <nav className='flex text-lg gap-7 font-medium'>
+                <NavLink to="/about" className={({ isActive }) => isActive == true ? 'text-blue-500' : 'text-black'} > ABOUT  </NavLink>
+                <NavLink to="/projects" className={({ isActive }) => isActive == true ? 'text-blue-500' : 'text-black'} > Project  </NavLink>
+            </nav>
+        </header>
+    );
+};
+
+export default Navbar;
