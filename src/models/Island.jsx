@@ -6,13 +6,102 @@ Source: https://sketchfab.com/3d-models/foxs-islands-163b68e09fcc47618450150be77
 Title: Fox's islands
 */
 
-import { useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
+import { useFrame, useThree } from '@react-three/fiber';
 import islandScene from '../assets/3d/island.glb';
 
-const Island = (props) => {
+const Island = ({ setIsRotating, ...props }) => {
     const islandRef = useRef();
+    const { gl, viewport } = useThree();
     const { nodes, materials } = useGLTF(islandScene);
+    const lastX = useRef(0);
+    const dragging = useRef(false);
+    const keyboardDirection = useRef(0);
+
+    // Only a primary mouse-button drag controls the island's Y rotation.
+    const handlePointerDown = useCallback((event) => {
+        if (event.pointerType !== 'mouse' || event.button !== 0) return;
+
+        event.stopPropagation();
+        event.preventDefault();
+        dragging.current = true;
+        setIsRotating(true);
+
+        lastX.current = event.clientX;
+        event.currentTarget.setPointerCapture?.(event.pointerId);
+    }, [setIsRotating]);
+
+    const handlePointerUp = useCallback((event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        dragging.current = false;
+        setIsRotating(false);
+        if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+        }
+    }, [setIsRotating]);
+
+    const handlePointerMove = useCallback((event) => {
+        if (!dragging.current || !islandRef.current) return;
+
+        event.stopPropagation();
+        event.preventDefault();
+
+        const deltaX = event.clientX - lastX.current;
+        const canvasWidth = gl.domElement.clientWidth || viewport.width;
+        islandRef.current.rotation.y += (deltaX / canvasWidth) * Math.PI * 2;
+        lastX.current = event.clientX;
+    }, [gl, viewport.width]);
+
+    const handleKeyDown = useCallback((event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+        event.preventDefault();
+        keyboardDirection.current = event.key === 'ArrowLeft' ? 1 : -1;
+        setIsRotating(true);
+    }, [setIsRotating]);
+
+    const handleKeyUp = useCallback((event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+        keyboardDirection.current = 0;
+        if (!dragging.current) setIsRotating(false);
+    }, [setIsRotating]);
+
+    useEffect(() => {
+        const canvas = gl.domElement;
+
+        canvas.addEventListener('pointerdown', handlePointerDown);
+        canvas.addEventListener('pointerup', handlePointerUp);
+        canvas.addEventListener('pointercancel', handlePointerUp);
+        canvas.addEventListener('pointermove', handlePointerMove);
+        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('keyup', handleKeyUp);
+
+        return () => {
+            canvas.removeEventListener('pointerdown', handlePointerDown);
+            canvas.removeEventListener('pointerup', handlePointerUp);
+            canvas.removeEventListener('pointercancel', handlePointerUp);
+            canvas.removeEventListener('pointermove', handlePointerMove);
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('keyup', handleKeyUp);
+        };
+    }, [
+        gl,
+        handlePointerDown,
+        handlePointerUp,
+        handlePointerMove,
+        handleKeyDown,
+        handleKeyUp,
+    ]);
+
+    // for moving the island we can do here 
+    useFrame((_, delta) => {
+        if (!islandRef.current || keyboardDirection.current === 0) return;
+
+        islandRef.current.rotation.y += keyboardDirection.current * delta * 1.8;
+    });
 
     return (
         <group ref={islandRef} {...props}>

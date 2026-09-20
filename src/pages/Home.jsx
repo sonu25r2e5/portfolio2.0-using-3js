@@ -25,11 +25,12 @@ const Home = () => {
         let rotation = [0.0, 4.8, 0];
 
 
+        // managing the screeen size nothing else 
         if (window.innerWidth < 768) {
             // it has 3 axis
             screenScale = [0.9, 0.9, 0.9]
         } else {
-            screenScale = [1, 1, 1]
+            screenScale = [1.1, 1.1, 1.1]
         }
         return [screenScale, screenPostion, rotation]
     }
@@ -40,14 +41,14 @@ const Home = () => {
         let screenScale, screenPosition;
         // let rotation = [0.0, 4.8, 0];
 
-
+        // plane poisiton
         if (window.innerWidth < 768) {
             // it has 3 axis
             screenScale = [1.5, 1.5, 1.5]
-            screenPosition = [0, -1.5, 0]
+            screenPosition = [0, -6.5, 0]
         } else {
-            screenScale = [3, 3, 3]
-            screenPosition = [0, -4, -4]
+            screenScale = [1, 1, 1]
+            screenPosition = [0, 0.5, -4]
         }
         return [screenScale, screenPosition]
     }

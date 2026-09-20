@@ -2,17 +2,18 @@ import React from 'react';
 import planeScene from '../assets/3d/plane.glb';
 import { useGLTF } from '@react-three/drei';
 
-// we spread props to mention
-const Plane = ({ isRotating, ...props }) => {
-
-    const { scene, animations } = useGLTF(planeScene);
+const Plane = ({ isRotating, planeScale, planePosition, ...props }) => {
+    const { scene } = useGLTF(planeScene);
 
     return (
-
-        <mesh {...props}>
-            <primitive object={scene}></primitive>
+        <mesh
+            scale={planeScale}
+            position={planePosition}
+            {...props}
+        >
+            <primitive object={scene} />
         </mesh>
-    )
-}
+    );
+};
 
-export default Plane
+export default Plane;
