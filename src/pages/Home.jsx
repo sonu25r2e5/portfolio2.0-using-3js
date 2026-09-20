@@ -16,6 +16,8 @@ const Home = () => {
     // for rotating we place here. understand that. 
     const [isRotating, setIsRotating] = useState(false);
 
+
+    // adjusting island screen 
     const adjustIslandForScreenSize = () => {
         // for scalling and position we place here. 
         let screenScale = null;
@@ -32,9 +34,30 @@ const Home = () => {
         return [screenScale, screenPostion, rotation]
     }
 
+    // for addjusting the plane size 
+    const adjustPlaneForScreenSize = () => {
+        // for scalling and position we place here. 
+        let screenScale, screenPosition;
+        // let rotation = [0.0, 4.8, 0];
+
+
+        if (window.innerWidth < 768) {
+            // it has 3 axis
+            screenScale = [1.5, 1.5, 1.5]
+            screenPosition = [0, -1.5, 0]
+        } else {
+            screenScale = [3, 3, 3]
+            screenPosition = [0, -4, -4]
+        }
+        return [screenScale, screenPosition]
+    }
+
+
+
     // const islane
 
     const [islandScale, isLandPosition, islandRotation] = adjustIslandForScreenSize();
+    const [planeScale, planePosition, rotation] = adjustPlaneForScreenSize();
 
 
 
@@ -55,8 +78,14 @@ const Home = () => {
                         position={isLandPosition}
                         scale={islandScale}
                         rotation={islandRotation}
+                        setIsRotating={setIsRotating}
                     />
-                    <Plane />
+                    <Plane
+                        isRotating={isRotating}
+                        planeScale={planeScale}
+                        planePosition={planePosition}
+                        rotation={[0, 20, 0]}
+                    />
                 </Suspense>
             </Canvas>
         </section>
