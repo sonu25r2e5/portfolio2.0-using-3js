@@ -22,27 +22,33 @@ const Bird = () => {
         return () => action.stop();
     }, [actions]);
 
-    useFrame(({ clock }) => {
-        const bird = birdRef.current;
-        if (!bird) return;
+    useFrame(({ clock, camera }) => {
+        // Update the Y position to simulate bird-like motion using a sine wave
+        birdRef.current.position.y = Math.sin(clock.elapsedTime) * 0.2 + 2;
 
-        const elapsed = clock.getElapsedTime();
-        // Keep the orbit centered on the island/tower group from Home.jsx.
-        const towerPosition = [0, -6.5, -43];
-        const radius = 20;
-        const angle = elapsed * 0.7;
-        const baseScale = 0.02;
-        const tinyShrink = Math.sin(elapsed * 1) * 0.0006;
+        // Check if the bird reached a certain endpoint relative to the camera
+        if (birdRef.current.position.x > camera.position.x + 10) {
+            // Change direction to backward and rotate the bird 180 degrees on the y-axis
+            birdRef.current.rotation.y = Math.PI;
+        } else if (birdRef.current.position.x < camera.position.x - 10) {
+            // Change direction to forward and reset the bird's rotation
+            birdRef.current.rotation.y = 0;
+        }
 
-        bird.position.x = towerPosition[0] + Math.sin(angle) * radius;
-        bird.position.y = towerPosition[1];
-        bird.position.z = towerPosition[2] + Math.cos(angle) * radius;
-        bird.rotation.y = -angle + Math.PI / 2;
-        bird.scale.setScalar(Math.max(0.0048, baseScale + tinyShrink));
+        // Update the X and Z positions based on the direction
+        if (birdRef.current.rotation.y === 0) {
+            // Moving forward
+            birdRef.current.position.x += 0.01;
+            birdRef.current.position.z -= 0.01;
+        } else {
+            // Moving backward
+            birdRef.current.position.x -= 0.01;
+            birdRef.current.position.z += 0.01;
+        }
     });
 
     return (
-        <group ref={birdRef}>
+        <group ref={birdRef} position={[-5, 2, 1]} scale={[0.003, 0.003, 0.003]}>
             <primitive object={scene} />
         </group>
     );

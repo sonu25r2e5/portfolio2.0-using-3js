@@ -18,6 +18,15 @@ const Island = ({ setIsRotating, setCurrentStage, ...props }) => {
     const lastX = useRef(0);
     const dragging = useRef(false);
     const keyboardDirection = useRef(0);
+    const updateCurrentStage = useCallback(() => {
+        if (!islandRef.current || !setCurrentStage) return;
+
+        const fullRotation = Math.PI * 2;
+        const angle = ((islandRef.current.rotation.y % fullRotation) + fullRotation) % fullRotation;
+        const stage = Math.min(4, Math.floor(angle / (fullRotation / 4)) + 1);
+
+        setCurrentStage(stage);
+    }, [setCurrentStage]);
 
     // Only a primary mouse-button drag controls the island's Y rotation.
     const handlePointerDown = useCallback((event) => {
@@ -51,8 +60,9 @@ const Island = ({ setIsRotating, setCurrentStage, ...props }) => {
         const deltaX = event.clientX - lastX.current;
         const canvasWidth = gl.domElement.clientWidth || viewport.width;
         islandRef.current.rotation.y += (deltaX / canvasWidth) * Math.PI * 2;
+        updateCurrentStage();
         lastX.current = event.clientX;
-    }, [gl, viewport.width]);
+    }, [gl, updateCurrentStage, viewport.width]);
 
     const handleKeyDown = useCallback((event) => {
         if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
@@ -101,6 +111,7 @@ const Island = ({ setIsRotating, setCurrentStage, ...props }) => {
         if (!islandRef.current || keyboardDirection.current === 0) return;
 
         islandRef.current.rotation.y += keyboardDirection.current * delta * 1.8;
+        updateCurrentStage();
     });
 
     return (
