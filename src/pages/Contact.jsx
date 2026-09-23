@@ -3,7 +3,8 @@ import emailjs from '@emailjs/browser';
 import { Canvas } from '@react-three/fiber';
 import Fox from '../models/Fox';
 import Loader from '../components/Loader'
-
+import useAlert from "../hooks/useAlert";
+import Alert from "../components/ALert";
 
 
 const Contact = () => {
@@ -11,6 +12,20 @@ const Contact = () => {
     const [form, setForm] = useState({ name: '', email: '', message: '' })
     // we use diable properties. 
     const [isLoading, setIsLoading] = useState(false);  // we use reference nothing more than than
+
+    // we define diferent states here. 
+    const [currentAnimation, setCurrentAnimation] = useState('idle');
+
+
+    const { alert, showAlert, hideAlert } = useAlert();
+
+    const emailJsConfig = {
+        serviceId: import.meta.env.VITE_APP_EMAILJS_SERVICE_ID
+            || import.meta.env.VITE_APP_EMAILJS_SERVICES_ID,
+        templateId: import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+        publicKey: import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY,
+    };
+
 
 
     // create a empy function for handling the things 
@@ -21,9 +36,22 @@ const Contact = () => {
     // handle submit get the vbalue 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!Object.values(emailJsConfig).every(Boolean)) {
+            showAlert({
+                text: 'Email service is not configured. Add the EmailJS environment variables and restart the app.',
+                type: 'danger',
+            });
+            return;
+        }
+
         setIsLoading(true);
-        emailjs.send(import.meta.env.VITE_APP_EMAILJS_SERVICES_ID,
-            import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+        setCurrentAnimation('hit');
+
+
+
+        emailjs.send(emailJsConfig.serviceId,
+            emailJsConfig.templateId,
             {
                 from_name: form.name,
                 to_name: "Sonu",
@@ -31,26 +59,50 @@ const Contact = () => {
                 to_email: 'sk7018059@gmail.com',
                 message: form.message,
             },
-            import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+            emailJsConfig.publicKey
         ).then(() => {
             setIsLoading(false);
+
+            // show success message 
+            showAlert({ show: true, text: 'your message has been sent nothing to worry', type: 'success' })
+            // create a custom hooks 
+
+
+            setTimeout(() => {
+                hideAlert();
+                setCurrentAnimation('idle')
+
+                setForm({ name: '', email: '', message: '' })
+
+            }, [3000])
+
+
             // todo : show sucess message
             // todo : hide an alert 
-            setForm({ name: '', email: '', message: '' })
         }).catch((error) => {
             setIsLoading(false);
-            console.log(error);
+            // setting the current ELement here. 
+            setCurrentAnimation('idle');
+            showAlert({
+                text: 'We could not send your message. Check your internet connection and EmailJS configuration.',
+                type: 'danger',
+            });
+            console.error('EmailJS request failed:', error);
             // todo : show error message. 
 
         })
 
     };
-    const handleFocus = () => { };
-    const handleBlur = () => { };
+    const handleFocus = () => setCurrentAnimation('walk');
+    const handleBlur = () => setCurrentAnimation('idle');
 
+    // let make it reaun 
 
     return (
         <section className="relative flex lg:flex-row flex-col max-container">
+
+            {alert.show && <Alert {...alert} />}
+
             <div className="flex-1 min-w-[50%] flex flex-col">
                 <h1 className="head-text"> Wanna Talk with me , say hi</h1>
                 <form className="w-full flex flex-col gap-7 mt-14" onSubmit={handleSubmit}>
@@ -95,11 +147,14 @@ const Contact = () => {
                 }}>
                     /// let add light
                     <directionalLight intensity={2.5} position={[0, 0, 1]} />
+                    <ambientLight intensity={0.5} />
+
 
 
                 // load the
-                    <Suspense fallback={Loader}>
+                    <Suspense fallback={<Loader />}>
                         <Fox
+                            currentAnimation={currentAnimation}
                             position={[0.5, 0.5, 0.5]}
                             rotation={[12.6, -0.6, 0]}
                             scale={[0.3, 0.3, 0.3]}
