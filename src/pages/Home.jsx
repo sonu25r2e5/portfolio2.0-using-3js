@@ -24,9 +24,7 @@ import { soundoff, soundon } from '../assets/icons';
 
 const Home = () => {
 
-    const audioRef = useRef(new Audio(sakura));
-    audioRef.current.volume = 0.4;
-    audioRef.current.loop = true;
+    const audioRef = useRef(null);
 
     const [isRotating, setIsRotating] = useState(false);
     const [currentStage, setCurrentStage] = useState(1);
@@ -36,20 +34,28 @@ const Home = () => {
     const [isPlayingMusic, setIsPlayingMusic] = useState(false);
 
     useEffect(() => {
-        if (isPlayingMusic) {
-            audioRef.current.play();
-        }
-
-
-        if (typeof window === 'undefined') return;
+        const audio = new Audio(sakura);
+        audio.volume = 0.4;
+        audio.loop = true;
+        audioRef.current = audio;
 
         const handleResize = () => setScreenWidth(window.innerWidth);
         window.addEventListener('resize', handleResize);
 
         return () => {
             window.removeEventListener('resize', handleResize);
-            audioRef.current.pause();
+            audio.pause();
+        }
+    }, []);
 
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        if (isPlayingMusic) {
+            audio.play();
+        } else {
+            audio.pause();
         }
     }, [isPlayingMusic]);
 

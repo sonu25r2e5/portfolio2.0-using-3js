@@ -1,33 +1,25 @@
 //
 
 
-import { meta, shopify, starbucks, tesla, kharayoo, logo4, wordpress, nextjsw } from "../assets/images";
+import { logo4, wordpress } from "../assets/images";
 
 import {
     car,
     contact,
     css,
-    estate,
-    express,
     git,
     github,
     html,
     javascript,
     linkedin,
     mongodb,
-    motion,
-    mui,
     nextjs,
     nodejs,
     pricewise,
     react,
-    redux,
-    sass,
     snapgram,
-    summiz,
     tailwindcss,
-    threads,
-    typescript
+    threads
 } from "../assets/icons";
 
 // skilss 

@@ -2,7 +2,6 @@
 import { experiences, skills } from '../constant';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
-import { div, exp } from 'three/tsl';
 import CTA from '../components/CTA';
 
 
