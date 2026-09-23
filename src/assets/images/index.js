@@ -7,7 +7,7 @@ import kharayoo from './kharayoo.png'
 import logo from './logo.svg'
 import logo4 from './logo4.png'
 import wordpress from './wordpress.png'
-import nextjsw from './next.js.svg'
+import nextjsw from './Next.js.svg'
 
 export {
     hero,
