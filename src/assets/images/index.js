@@ -3,7 +3,11 @@ import meta from './meta.png'
 import shopify from './shopify.png'
 import starbucks from './starbucks.png'
 import tesla from './tesla.png'
+import kharayoo from './kharayoo.png'
 import logo from './logo.svg'
+import logo4 from './logo4.png'
+import wordpress from './wordpress.png'
+import nextjsw from './next.js.svg'
 
 export {
     hero,
@@ -11,5 +15,10 @@ export {
     shopify,
     starbucks,
     tesla,
-    logo
+    kharayoo,
+    logo,
+    logo4,
+    wordpress,
+    nextjsw
+
 }

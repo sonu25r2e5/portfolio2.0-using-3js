@@ -1,7 +1,8 @@
 //
 
 
-import { meta, shopify, starbucks, tesla } from "../assets/images";
+import { meta, shopify, starbucks, tesla, kharayoo, logo4, wordpress, nextjsw } from "../assets/images";
+
 import {
     car,
     contact,
@@ -37,11 +38,7 @@ export const skills = [
         name: "CSS",
         type: "Frontend",
     },
-    {
-        imageUrl: express,
-        name: "Express",
-        type: "Backend",
-    },
+
     {
         imageUrl: git,
         name: "Git",
@@ -67,21 +64,7 @@ export const skills = [
         name: "MongoDB",
         type: "Database",
     },
-    {
-        imageUrl: motion,
-        name: "Motion",
-        type: "Animation",
-    },
-    {
-        imageUrl: mui,
-        name: "Material-UI",
-        type: "Frontend",
-    },
-    {
-        imageUrl: nextjs,
-        name: "Next.js",
-        type: "Frontend",
-    },
+
     {
         imageUrl: nodejs,
         name: "Node.js",
@@ -92,58 +75,54 @@ export const skills = [
         name: "React",
         type: "Frontend",
     },
-    {
-        imageUrl: redux,
-        name: "Redux",
-        type: "State Management",
-    },
-    {
-        imageUrl: sass,
-        name: "Sass",
-        type: "Frontend",
-    },
+
+
     {
         imageUrl: tailwindcss,
         name: "Tailwind CSS",
         type: "Frontend",
     },
-    {
-        imageUrl: typescript,
-        name: "TypeScript",
-        type: "Frontend",
-    }
+
 ];
 
 // experiences
 
 export const experiences = [
     {
-        title: "Flutter Developer",
+        title: "Mobile App Development using Flutter",
         company_name: "Kharayoo,Inc",
-        icon: starbucks,
+        icon: logo4,
         iconBg: "#accbe1",
-        date: "March 2026 - Ongoing",
+        date: "September 2026 - Present",
         points: [
-            "Developing and maintaining web applications using React.js and other related technologies.",
-            "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-            "Implementing responsive design and ensuring cross-browser compatibility.",
-            "Participating in code reviews and providing constructive feedback to other developers.",
+            "Developing and maintaining android applications using Flutter framework  and other related technologies.",
+
+        ],
+    },
+    {
+        title: "WebApp development using reactjs, nextjs",
+        company_name: "Freelance",
+        icon: nextjs,
+        iconBg: "#b7e4c7",
+        date: "Jan 2022- Jan 2024",
+        points: [
+            "Developing Some of the freelancher work in reactjs and nextjs and nothing more than that only that ",
         ],
     },
 
     {
-        title: "Web Developer",
-        company_name: "WordPress",
-        icon: shopify,
+        title: "Website Development using Wordpress",
+        company_name: "Freelance",
+        icon: wordpress,
         iconBg: "#b7e4c7",
-        date: "Jan 2024 - Jan 2026",
+        date: "Jan 2020 - Jan 2022",
         points: [
-            "Developing and maintaining web applications using React.js and other related technologies.",
-            "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-            "Implementing responsive design and ensuring cross-browser compatibility.",
-            "Participating in code reviews and providing constructive feedback to other developers.",
+            "Developing Some of the freelancher work in wordpress and nothing more than that only that ",
+
         ],
     },
+
+
 
 ];
 
@@ -169,43 +148,45 @@ export const projects = [
     {
         iconUrl: pricewise,
         theme: 'btn-back-red',
-        name: 'Amazon Price Tracker',
-        description: 'Developed a web application that tracks and notifies users of price changes for products on Amazon, helping users find the best deals.',
-        link: 'https://github.com/adrianhajdin/pricewise',
+        name: 'WholeSale Gayatri HandiCraft ',
+        description: 'WholeSale Gayatri HandiCraft is an e-commerce website developed to showcase and promote handcrafted products, traditional gift items, and elegant home décor accessories. The platform provides customers with an easy way to explore different handcrafted collections, view product details, and discover unique items suitable for weddings, festivals, anniversaries, housewarming ceremonies, and other special occasions.',
+
+        link: 'https://wholesalegayatrihanddicraft.com/',
     },
+
     {
         iconUrl: threads,
         theme: 'btn-back-green',
-        name: 'Full Stack Threads Clone',
-        description: 'Created a full-stack replica of the popular discussion platform "Threads," enabling users to post and engage in threaded conversations.',
-        link: 'https://github.com/adrianhajdin/threads',
+        name: 'To do app Using Bloc State-Management',
+        description: 'The To-Do App is a Flutter-based task management application developed using **BLoC state management**. It allows users to add, update, delete, complete, and manage their daily tasks. BLoC separates the business logic from the user interface, making the application organized, maintainable, and easier to manage. The project uses **Flutter, Dart, BLoC, and Equatable** to provide efficient state management and a smooth user experience.',
+        link: 'https://github.com/sonu25r2e5/todoappusing_bloc',
     },
     {
         iconUrl: car,
         theme: 'btn-back-blue',
-        name: 'Car Finding App',
-        description: 'Designed and built a mobile app for finding and comparing cars on the market, streamlining the car-buying process.',
-        link: 'https://github.com/adrianhajdin/project_next13_car_showcase',
+        name: 'NEC APP using Firebase for DataStore',
+        description: 'The NEC Quiz App is a Flutter-based quiz application that uses Firebase as its backend and datastore. It provides users with quiz questions, allows them to attempt quizzes, and stores quiz data and user results securely in Firebase. The app also helps users track their scores and improve their preparation through an interactive and user-friendly interface.',
+        link: 'https://github.com/sonu25r2e5/quizAPp',
     },
     {
         iconUrl: snapgram,
         theme: 'btn-back-pink',
-        name: 'Full Stack Instagram Clone',
-        description: 'Built a complete clone of Instagram, allowing users to share photos and connect with friends in a familiar social media environment.',
+        name: 'Paropakar Sanastha Anusand Kendra a webiste for Old age Care',
+        description: 'The Paropakar Sanstha website is a responsive website developed to present information about an organization providing care and support for elderly and vulnerable people in Birtamode, Jhapa. The website highlights its residential care services, medical and nursing support, beneficiaries, organization history, team members, and contact information. It provides a simple and accessible platform for visitors to learn about the organization and get in touch for assistance or support.',
         link: 'https://github.com/adrianhajdin/social_media_app',
     },
-    {
-        iconUrl: estate,
-        theme: 'btn-back-black',
-        name: 'Real-Estate Application',
-        description: 'Developed a web application for real estate listings, facilitating property searches and connecting buyers with sellers.',
-        link: 'https://github.com/adrianhajdin/projects_realestate',
-    },
-    {
-        iconUrl: summiz,
-        theme: 'btn-back-yellow',
-        name: 'AI Summarizer Application',
-        description: 'App that leverages AI to automatically generate concise & informative summaries from lengthy text content, or blogs.',
-        link: 'https://github.com/adrianhajdin/project_ai_summarizer',
-    }
+    // {
+    //     iconUrl: estate,
+    //     theme: 'btn-back-black',
+    //     name: 'Real-Estate Application',
+    //     description: 'Developed a web application for real estate listings, facilitating property searches and connecting buyers with sellers.',
+    //     link: 'https://github.com/adrianhajdin/projects_realestate',
+    // },
+    // {
+    //     iconUrl: summiz,
+    //     theme: 'btn-back-yellow',
+    //     name: 'AI Summarizer Application',
+    //     description: 'App that leverages AI to automatically generate concise & informative summaries from lengthy text content, or blogs.',
+    //     link: 'https://github.com/adrianhajdin/project_ai_summarizer',
+    // }
 ];

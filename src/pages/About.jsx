@@ -2,6 +2,8 @@
 import { experiences, skills } from '../constant';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
+import { div, exp } from 'three/tsl';
+import CTA from '../components/CTA';
 
 
 
@@ -13,9 +15,7 @@ const About = () => {
             <h1 className="head-text">
 
                 Hello buddy , I 'm
-                <span>
-                    Sonu
-                </span>
+                <span className=' px-4 blue-gradient_text font-semibold drop-shadow-2xl'>Sonu</span>
             </h1>
 
             <div className="mt-5 flex flex-col gap-3 text-slate-500">
@@ -45,15 +45,39 @@ const About = () => {
                 <h3 className='subhead-text'>Works Experience</h3>
                 <div className='mt-5 flex flex-col gap-3 text-slate-500'>
                     <p>
-                        I've worked with all sorts of companies , leveeling up my skills and teaming up with smart people here the rundown
+                        I've worked with all sorts of companies , leveling up my skills and teaming up with smart people here the rundown
                     </p>
 
                 </div>
-                {/* below the div we cleraete final div  */}\
+                {/* below the div we cleraete final div  */}
                 <div className='mt-12 flex'>
                     <VerticalTimeline>
                         {experiences.map((experience) => (
-                            <VerticalTimelineElement key={`${experience.company_name}-${experience.title}`}>
+                            <VerticalTimelineElement key={`${experience.company_name}`} date={experience.date} icon={<div className='flex justify-center w-full h-full'>
+                                <img src={experience.icon}
+                                    alt={experience.company_name}
+                                    className='w-[60%] h-[60%] object-contain'
+                                />
+                            </div>
+
+                            }
+
+                                iconStyle={
+                                    {
+                                        background: experience.iconBg,
+
+                                    }
+                                }
+
+                                contentStyle={{
+                                    borderBottom: '8px ',
+                                    borderStyle: 'solid',
+                                    borderBottomColor: experience.iconBg,
+                                    boxShadow: 'none',
+
+                                }}
+                            >
+
                                 <div>
                                     <h3 className='text-black text-xl font-poppins font-semibold'>
                                         {experience.title}
@@ -70,8 +94,6 @@ const About = () => {
                                         </li>
                                     ))}
                                 </ul>
-
-
                             </VerticalTimelineElement>
                         ))}
                     </VerticalTimeline>
@@ -79,6 +101,12 @@ const About = () => {
                 </div>
 
             </div>
+            {/* // CALL to Action */}
+            {/* //horiziontal line  press ctrl plus space to import its directrly  */}
+            <hr className='border-slate-200' />
+
+            <CTA />
+
 
         </section>
     )

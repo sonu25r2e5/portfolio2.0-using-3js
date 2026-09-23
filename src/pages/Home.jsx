@@ -2,7 +2,7 @@
     POP up
 </div> */}
 
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import Loader from '../components/Loader';
 import Island from '../models/Island';
@@ -11,7 +11,8 @@ import Plane from '../models/Plane';
 import Sky from '../models/Sky';
 import HomeInfo from '../components/HomeInfo';
 
-
+import sakura from '../assets/sakura.mp3'
+import { soundoff, soundon } from '../assets/icons';
 
 
 
@@ -22,20 +23,35 @@ import HomeInfo from '../components/HomeInfo';
 
 
 const Home = () => {
+
+    const audioRef = useRef(new Audio(sakura));
+    audioRef.current.volume = 0.4;
+    audioRef.current.loop = true;
+
     const [isRotating, setIsRotating] = useState(false);
     const [currentStage, setCurrentStage] = useState(1);
     const [screenWidth, setScreenWidth] = useState(() =>
         typeof window !== 'undefined' ? window.innerWidth : 1024,
     );
+    const [isPlayingMusic, setIsPlayingMusic] = useState(false);
 
     useEffect(() => {
+        if (isPlayingMusic) {
+            audioRef.current.play();
+        }
+
+
         if (typeof window === 'undefined') return;
 
         const handleResize = () => setScreenWidth(window.innerWidth);
         window.addEventListener('resize', handleResize);
 
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            audioRef.current.pause();
+
+        }
+    }, [isPlayingMusic]);
 
     const islandConfig = useMemo(() => {
         const isSmallScreen = screenWidth < 768;
@@ -77,6 +93,7 @@ const Home = () => {
                     // we need to rotate the sky
                     // we need to pass the arguments here. nothing else more
                     <Sky isRotating={isRotating} />
+
                     <Island
                         position={isLandPosition}
                         scale={islandScale}
@@ -92,6 +109,12 @@ const Home = () => {
                     />
                 </Suspense>
             </Canvas>
+            <div className='absolute bottom-2 left-2'>
+                <img src={!isPlayingMusic ? soundoff : soundon} alt="sound" className='w-10 h-10 cursor-pointer object-contain' onClick={
+                    () => setIsPlayingMusic(!isPlayingMusic)
+                } />
+
+            </div>
         </section>
     );
 };
