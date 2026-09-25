@@ -165,7 +165,7 @@ export const projects = [
         theme: 'btn-back-pink',
         name: 'Paropakar Sanastha Anusand Kendra a webiste for Old age Care',
         description: 'The Paropakar Sanstha website is a responsive website developed to present information about an organization providing care and support for elderly and vulnerable people in Birtamode, Jhapa. The website highlights its residential care services, medical and nursing support, beneficiaries, organization history, team members, and contact information. It provides a simple and accessible platform for visitors to learn about the organization and get in touch for assistance or support.',
-        link: 'https://github.com/adrianhajdin/social_media_app',
+        link: 'https://crcnepal23.org/',
     },
     // {
     //     iconUrl: estate,
