@@ -17,6 +17,7 @@ const Island = ({ setIsRotating, setCurrentStage, ...props }) => {
     const { nodes, materials } = useGLTF(islandScene);
     const lastX = useRef(0);
     const dragging = useRef(false);
+    const activePointerId = useRef(null);
     const keyboardDirection = useRef(0);
     const updateCurrentStage = useCallback(() => {
         if (!islandRef.current || !setCurrentStage) return;
@@ -28,13 +29,14 @@ const Island = ({ setIsRotating, setCurrentStage, ...props }) => {
         setCurrentStage(stage);
     }, [setCurrentStage]);
 
-    // Only a primary mouse-button drag controls the island's Y rotation.
+    // A primary mouse, touch, or pen drag controls the island's Y rotation.
     const handlePointerDown = useCallback((event) => {
-        if (event.pointerType !== 'mouse' || event.button !== 0) return;
+        if (activePointerId.current !== null || (event.pointerType === 'mouse' && event.button !== 0)) return;
 
         event.stopPropagation();
         event.preventDefault();
         dragging.current = true;
+        activePointerId.current = event.pointerId;
         setIsRotating(true);
 
         lastX.current = event.clientX;
@@ -42,9 +44,12 @@ const Island = ({ setIsRotating, setCurrentStage, ...props }) => {
     }, [setIsRotating]);
 
     const handlePointerUp = useCallback((event) => {
+        if (activePointerId.current !== event.pointerId) return;
+
         event.stopPropagation();
         event.preventDefault();
         dragging.current = false;
+        activePointerId.current = null;
         setIsRotating(false);
         if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
             event.currentTarget.releasePointerCapture(event.pointerId);
@@ -52,7 +57,7 @@ const Island = ({ setIsRotating, setCurrentStage, ...props }) => {
     }, [setIsRotating]);
 
     const handlePointerMove = useCallback((event) => {
-        if (!dragging.current || !islandRef.current) return;
+        if (!dragging.current || activePointerId.current !== event.pointerId || !islandRef.current) return;
 
         event.stopPropagation();
         event.preventDefault();
